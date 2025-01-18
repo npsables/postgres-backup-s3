@@ -9,7 +9,7 @@ apk update
 apk add postgresql-client
 
 # pigz
-apk add 
+apk add pigz
 
 # install gpg
 apk add gnupg
