@@ -1,5 +1,5 @@
 # Introduction
-This project provides Docker images to periodically back up a PostgreSQL database to AWS S3, and to restore from the backup as needed.
+This fork provides Docker images to periodically back up a PostgreSQL database contains images to AWS S3, and to restore from the backup as needed.
 
 # Usage
 ## Backup

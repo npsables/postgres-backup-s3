@@ -6,7 +6,7 @@ set -o pipefail
 source ./env.sh
 
 echo "Creating backup of $POSTGRES_DATABASE database..."
-pg_dump --format=custom \
+pg_dump -Z0 --format=custom \
         -h $POSTGRES_HOST \
         -p $POSTGRES_PORT \
         -U $POSTGRES_USER \
@@ -16,16 +16,18 @@ pg_dump --format=custom \
 
 timestamp=$(date +"%Y-%m-%dT%H:%M:%S")
 s3_uri_base="s3://${S3_BUCKET}/${S3_PREFIX}/${POSTGRES_DATABASE}_${timestamp}.dump"
+tar -cf - db.dump | pigz -p 10 > db.dump.tar.gz
+rm -f db.dump
 
 if [ -n "$PASSPHRASE" ]; then
   echo "Encrypting backup..."
   rm -f db.dump.gpg
-  gpg --symmetric --batch --passphrase "$PASSPHRASE" db.dump
-  rm db.dump
-  local_file="db.dump.gpg"
+  gpg --symmetric --batch --passphrase "$PASSPHRASE" db.dump.tar.gz
+  rm db.dump.tar.gz
+  local_file="db.dump.tar.gz.gpg"
   s3_uri="${s3_uri_base}.gpg"
 else
-  local_file="db.dump"
+  local_file="db.dump.tar.gz"
   s3_uri="$s3_uri_base"
 fi
 
