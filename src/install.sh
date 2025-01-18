@@ -25,6 +25,5 @@ mv go-cron /usr/local/bin/go-cron
 chmod u+x /usr/local/bin/go-cron
 apk del curl
 
-
 # cleanup
 rm -rf /var/cache/apk/*
