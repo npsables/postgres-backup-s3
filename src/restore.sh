@@ -35,12 +35,12 @@ if [ -n "$PASSPHRASE" ]; then
   rm "db${file_type}"
 fi
 
-pigz -dc db.dump.tar.gz | tar -C db.dump --strip-components 1 -xf -
+pigz -dc db.dump.tar.gz | tar -C db --strip-components 1 -xf -
+conn_opts="-h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER"
 
-conn_opts="-h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER -d $POSTGRES_DATABASE"
-
+# TODO: do timescaledb pre-state for professionalism
 echo "Restoring from backup..."
-pg_restore $conn_opts --clean --if-exists db.dump
-rm db.dump
+pg_restore $conn_opts -Fd -d $POSTGRES_DATABASE db
+rm db
 
 echo "Restore complete."
