@@ -11,6 +11,9 @@ apk add postgresql-client
 # pigz
 apk add pigz
 
+# tar
+apk add --no-cache tar
+
 # install gpg
 apk add gnupg
 
