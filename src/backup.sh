@@ -22,7 +22,7 @@ rm -rf db
 if [ -n "$PASSPHRASE" ]; then
   echo "Encrypting backup..."
   rm -f db.dump.gpg
-  gpg --symmetric --batch --passphrase "$PASSPHRASE" db.dump.tar.gz
+  gpg --symmetric --batch --passphrase --yes "$PASSPHRASE" db.dump.tar.gz
   rm db.dump.tar.gz
   local_file="db.dump.tar.gz.gpg"
   s3_uri="${s3_uri_base}.gpg"
