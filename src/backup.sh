@@ -17,7 +17,7 @@ pg_dump -Z0 --format=custom \
 timestamp=$(date +"%Y-%m-%dT%H:%M:%S")
 s3_uri_base="s3://${S3_BUCKET}/${S3_PREFIX}/${POSTGRES_DATABASE}_${timestamp}.dump"
 tar -cf - db | pigz -p 10 > db.dump.tar.gz
-rm -f db
+rm -rf db
 
 if [ -n "$PASSPHRASE" ]; then
   echo "Encrypting backup..."

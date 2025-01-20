@@ -41,6 +41,6 @@ conn_opts="-h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER"
 # TODO: do timescaledb pre-state for professionalism
 echo "Restoring from backup..."
 pg_restore $conn_opts -Fd -d $POSTGRES_DATABASE db
-rm db
+rm -rf db
 
 echo "Restore complete."
